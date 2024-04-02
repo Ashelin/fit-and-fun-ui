@@ -1,0 +1,75 @@
+<br><p-fieldset legend="Create Workout">
+<form (ngSubmit)="onSubmit()" class="row align-items-end form-content">
+  <span class="p-float-label">
+    <input pInputText
+      type="text"
+      class="form-control"
+      id="name"
+      [(ngModel)]="workout.name"
+      name="name"
+    />
+    <label for="name">Name</label>
+  </span>
+    <span class="p-float-label">
+    <input pInputText 
+      type="text"
+      class="form-control"
+      id="description"
+      [(ngModel)]="workout.description"
+      name="description"
+    />
+    <label for="description">Description</label>
+    </span>
+    <button pButton type="submit" label="Create" class="btn btn-success"></button>
+</form>
+</p-fieldset><br>
+
+<p-fieldset legend="Workout-list">
+<p-table [value]="workouts" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]" [showCurrentPageReport]="true" selectionMode="single">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+      <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+      <th pSortableColumn="creationTimestamp">CreationTimeStamp <p-sortIcon field="creationTimestamp"></p-sortIcon></th>
+      <th pSortableColumn="modificationTimestamp">ModificationTimeStamp <p-sortIcon field="modificationTimestamp"></p-sortIcon></th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-workout>
+    <tr>
+      <td>{{ workout.id }}</td>
+      <td>
+        <ng-container *ngIf="!workout.editable; else editNameField">
+          {{ workout.name }}
+        </ng-container>
+        <ng-template #editNameField>
+          <input type="text" class="p-inputtext" [(ngModel)]="workout.name" />
+        </ng-template>
+      </td>
+      <td>
+        <ng-container *ngIf="!workout.editable; else editDescField">
+          {{ workout.description }}
+        </ng-container>
+        <ng-template #editDescField>
+          <input type="text" class="p-inputtext" [(ngModel)]="workout.description" />
+        </ng-template>
+      </td>
+      <td>{{ workout.creationTimestamp | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+      <td>{{ workout.modificationTimestamp | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+      <td>
+        <button pButton type="button" *ngIf="!workout.editable" (click)="editWorkout(workout)" class="p-button p-button-info p-button-rounded p-button-text">
+          <i class="pi pi-pencil"></i>
+        </button>
+        <button pButton type="button" *ngIf="!workout.editable" (click)="deleteWorkout(workout)" class="p-button p-button-danger p-button-rounded p-button-text">
+            <i class="pi pi-trash"></i>
+          </button>
+        <button pButton *ngIf="workout.editable" (click)="updateWorkout(workout)" class="p-button p-button-success p-button-rounded p-button-text">
+            <i class="pi pi-check"></i></button>
+        <button pButton *ngIf="workout.editable" (click)="cancelEdit(workout)" class="p-button p-button-warning p-button-rounded p-button-text">
+            <i class="pi pi-times"></i></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+</p-fieldset>
