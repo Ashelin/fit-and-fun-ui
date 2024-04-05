@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import {ConfirmationService, MessageService} from "primeng/api";
+import {Table} from "primeng/table";
 
 @Component({
   selector: 'app-workout-list',
@@ -9,6 +10,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
   styleUrls: ['./workout-list.component.css'],
 })
 export class WorkoutListComponent implements OnInit {
+  @ViewChild('dt') dt: Table | undefined;
   workout: Workout = new Workout();
   workouts: Workout[] = [];
   activeWorkout: Workout | null = null;
@@ -23,6 +25,10 @@ export class WorkoutListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWorkouts();
+  }
+
+  applyFilterGlobal($event: any, stringVal: any) {
+    this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
 
   onSubmit() {

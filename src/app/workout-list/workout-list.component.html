@@ -25,7 +25,15 @@
 </p-fieldset><br>
 
 <p-fieldset legend="Workout-list">
-<p-table [value]="workouts" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]" [showCurrentPageReport]="true" selectionMode="single">
+<p-table #dt [globalFilterFields]="['id', 'name', 'description']" [value]="workouts" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]" [showCurrentPageReport]="true" selectionMode="single">
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Filter" />
+                </span>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
