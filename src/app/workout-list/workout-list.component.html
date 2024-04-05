@@ -11,7 +11,7 @@
     <label for="name">Name</label>
   </span>
     <span class="p-float-label">
-    <input pInputText 
+    <input pInputText
       type="text"
       class="form-control"
       id="description"
@@ -61,9 +61,9 @@
         <button pButton type="button" *ngIf="!workout.editable" (click)="editWorkout(workout)" class="p-button p-button-info p-button-rounded p-button-text">
           <i class="pi pi-pencil"></i>
         </button>
-        <button pButton type="button" *ngIf="!workout.editable" (click)="deleteWorkout(workout)" class="p-button p-button-danger p-button-rounded p-button-text">
-            <i class="pi pi-trash"></i>
-          </button>
+        <button pButton type="button" *ngIf="!workout.editable" (click)="showConfirmationDialog($event, workout)" class="p-button p-button-danger p-button-rounded p-button-text">
+          <i class="pi pi-trash"></i>
+        </button>
         <button pButton *ngIf="workout.editable" (click)="updateWorkout(workout)" class="p-button p-button-success p-button-rounded p-button-text">
             <i class="pi pi-check"></i></button>
         <button pButton *ngIf="workout.editable" (click)="cancelEdit(workout)" class="p-button p-button-warning p-button-rounded p-button-text">

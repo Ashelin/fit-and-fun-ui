@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +19,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { FieldsetModule } from 'primeng/fieldset';
+import {ConfirmationService, MessageService} from 'primeng/api'
+import {ToastModule} from "primeng/toast";
 
 
 @NgModule({
@@ -44,9 +46,13 @@ import { FieldsetModule } from 'primeng/fieldset';
     ConfirmPopupModule,
     ConfirmDialogModule,
     FieldsetModule,
+    ConfirmPopupModule,
+    ToastModule,
   ],
   providers: [
     provideClientHydration(),
+    ConfirmationService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })
