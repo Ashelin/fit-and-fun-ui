@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-workout-list',
@@ -14,7 +15,11 @@ export class WorkoutListComponent implements OnInit {
   initialName: string = '';
   initialDescription: string = '';
 
-  constructor(private workoutService: WorkoutService) {}
+  constructor(
+    private workoutService: WorkoutService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService) {
+  }
 
   ngOnInit(): void {
     this.getWorkouts();
@@ -26,7 +31,7 @@ export class WorkoutListComponent implements OnInit {
 
   private getWorkouts() {
     this.workoutService.getWorkoutsList().subscribe((data) => {
-      this.workouts = data.map((workout) => ({ ...workout, editable: false }));
+      this.workouts = data.map((workout) => ({...workout, editable: false}));
     });
   }
 
@@ -34,6 +39,9 @@ export class WorkoutListComponent implements OnInit {
     this.workoutService.createWorkout(this.workout).subscribe((data) => {
       this.getWorkouts();
       this.workout = new Workout();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Workout created successfully', life: 3000 });
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to create workout', life: 3000 });
     });
   }
 
@@ -52,6 +60,9 @@ export class WorkoutListComponent implements OnInit {
       workout.editable = false;
       this.activeWorkout = null;
       this.getWorkouts();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Workout updated successfully', life: 3000 });
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update workout', life: 3000 });
     });
   }
 
@@ -66,5 +77,21 @@ export class WorkoutListComponent implements OnInit {
     workout.description = this.initialDescription;
     workout.editable = false;
     this.activeWorkout = null;
+  }
+
+  showConfirmationDialog(event: MouseEvent, workout: Workout) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this workout?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      accept: () => {
+        this.deleteWorkout(workout);
+        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'Workout deleted', life: 3000});
+      },
+      reject: () => {
+        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'Deletion cancelled', life: 3000});
+      }
+    });
   }
 }
