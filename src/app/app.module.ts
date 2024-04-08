@@ -21,6 +21,8 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { FieldsetModule } from 'primeng/fieldset';
 import {ConfirmationService, MessageService} from 'primeng/api'
 import {ToastModule} from "primeng/toast";
+import { DialogModule } from 'primeng/dialog';
+import {DialogService} from "primeng/dynamicdialog";
 
 
 @NgModule({
@@ -48,11 +50,13 @@ import {ToastModule} from "primeng/toast";
     FieldsetModule,
     ConfirmPopupModule,
     ToastModule,
+    DialogModule,
   ],
   providers: [
     provideClientHydration(),
     ConfirmationService,
-    MessageService
+    MessageService,
+    DialogService
   ],
   bootstrap: [AppComponent]
 })
