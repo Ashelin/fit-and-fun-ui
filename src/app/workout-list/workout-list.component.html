@@ -1,83 +1,109 @@
-<br><p-fieldset legend="Create Workout">
-<form (ngSubmit)="onSubmit()" class="row align-items-end form-content">
-  <span class="p-float-label">
-    <input pInputText
-      type="text"
-      class="form-control"
-      id="name"
-      [(ngModel)]="workout.name"
-      name="name"
-    />
-    <label for="name">Name</label>
-  </span>
+<p-fieldset legend="Create Workout">
+  <form (ngSubmit)="onSubmit()" class="row align-items-end form-content">
     <span class="p-float-label">
-    <input pInputText
-      type="text"
-      class="form-control"
-      id="description"
-      [(ngModel)]="workout.description"
-      name="description"
-    />
-    <label for="description">Description</label>
+      <input pInputText
+             type="text"
+             class="form-control"
+             id="name"
+             [(ngModel)]="workout.name"
+             name="name"
+      />
+      <label for="name">Name</label>
+    </span>
+    <span class="p-float-label">
+      <input pInputText
+             type="text"
+             class="form-control"
+             id="description"
+             [(ngModel)]="workout.description"
+             name="description"
+      />
+      <label for="description">Description</label>
     </span>
     <button pButton type="submit" label="Create" class="btn btn-success"></button>
-</form>
+  </form>
 </p-fieldset><br>
 
 <p-fieldset legend="Workout-list">
-<p-table #dt [globalFilterFields]="['id', 'name', 'description', 'creationTimestamp', 'modificationTimestamp']" [value]="workouts" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]" [showCurrentPageReport]="true" selectionMode="single">
-  <ng-template pTemplate="caption">
-    <div class="flex">
-      <span class="p-input-icon-left ml-auto">
-                    <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Filter" />
-                </span>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header">
-    <tr>
-      <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-      <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-      <th pSortableColumn="creationTimestamp">CreationTimeStamp <p-sortIcon field="creationTimestamp"></p-sortIcon></th>
-      <th pSortableColumn="modificationTimestamp">ModificationTimeStamp <p-sortIcon field="modificationTimestamp"></p-sortIcon></th>
-      <th>Actions</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-workout>
-    <tr>
-      <td>{{ workout.id }}</td>
-      <td>
-        <ng-container *ngIf="!workout.editable; else editNameField">
-          {{ workout.name }}
-        </ng-container>
-        <ng-template #editNameField>
-          <input type="text" class="p-inputtext" [(ngModel)]="workout.name" />
-        </ng-template>
-      </td>
-      <td>
-        <ng-container *ngIf="!workout.editable; else editDescField">
-          {{ workout.description }}
-        </ng-container>
-        <ng-template #editDescField>
-          <input type="text" class="p-inputtext" [(ngModel)]="workout.description" />
-        </ng-template>
-      </td>
-      <td>{{ workout.creationTimestamp | date : "yyyy-MM-dd HH:mm:ss" }}</td>
-      <td>{{ workout.modificationTimestamp | date : "yyyy-MM-dd HH:mm:ss" }}</td>
-      <td>
-        <button pButton type="button" *ngIf="!workout.editable" (click)="editWorkout(workout)" class="p-button p-button-info p-button-rounded p-button-text">
-          <i class="pi pi-pencil"></i>
-        </button>
-        <button pButton type="button" *ngIf="!workout.editable" (click)="showConfirmationDialog($event, workout)" class="p-button p-button-danger p-button-rounded p-button-text">
-          <i class="pi pi-trash"></i>
-        </button>
-        <button pButton *ngIf="workout.editable" (click)="updateWorkout(workout)" class="p-button p-button-success p-button-rounded p-button-text">
-            <i class="pi pi-check"></i></button>
-        <button pButton *ngIf="workout.editable" (click)="cancelEdit(workout)" class="p-button p-button-warning p-button-rounded p-button-text">
-            <i class="pi pi-times"></i></button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+  <p-table #dt [globalFilterFields]="['id', 'name', 'description', 'creationTimestamp', 'modificationTimestamp']"
+           [value]="workouts" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]"
+           [showCurrentPageReport]="true" selectionMode="single">
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Filter"/>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id" style="width: 5%;">Id
+          <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="name" style="width: 20%;">Name
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="description" style="width: 20%;">Description
+          <p-sortIcon field="description"></p-sortIcon>
+        </th>
+        <th pSortableColumn="creationTimestamp" style="width: 15%;">CreationTimeStamp
+          <p-sortIcon field="creationTimestamp"></p-sortIcon>
+        </th>
+        <th pSortableColumn="modificationTimestamp" style="width: 15%;">ModificationTimeStamp
+          <p-sortIcon field="modificationTimestamp"></p-sortIcon>
+        </th>
+        <th style="width: 15%; text-align: center;">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-workout>
+      <tr>
+        <td>{{ workout.id }}</td>
+        <td (click)="!workout.editable && showNameDialog(workout.name)">
+          <ng-container *ngIf="!workout.editable; else editNameField">
+            <div [ngClass]="{'name-text': workout.name.length > 50}" [title]="workout.name">{{ workout.name }}</div>
+          </ng-container>
+          <ng-template #editNameField>
+            <input type="text" class="p-inputtext" [(ngModel)]="workout.name"/>
+          </ng-template>
+        </td>
+        <td (click)="!workout.editable && showDescriptionDialog(workout.description)">
+          <ng-container *ngIf="!workout.editable; else editDescField">
+            <div [ngClass]="{'description-text': workout.description.length > 50}"
+                 [title]="workout.description">{{ workout.description }}
+            </div>
+          </ng-container>
+          <ng-template #editDescField>
+            <input type="text" class="p-inputtext" [(ngModel)]="workout.description"/>
+          </ng-template>
+        </td>
+        <td>{{ workout.creationTimestamp | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+        <td>{{ workout.modificationTimestamp | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+        <td style="text-align: center">
+          <button pButton type="button" *ngIf="!workout.editable" (click)="editWorkout(workout)"
+                  class="p-button p-button-info p-button-rounded p-button-text">
+            <i class="pi pi-pencil"></i>
+          </button>
+          <button pButton type="button" *ngIf="!workout.editable" (click)="showConfirmationDialog($event, workout)"
+                  class="p-button p-button-danger p-button-rounded p-button-text">
+            <i class="pi pi-trash"></i>
+          </button>
+          <button pButton *ngIf="workout.editable" (click)="updateWorkout(workout)"
+                  class="p-button p-button-success p-button-rounded p-button-text">
+            <i class="pi pi-check"></i>
+          </button>
+          <button pButton *ngIf="workout.editable" (click)="cancelEdit(workout)"
+                  class="p-button p-button-warning p-button-rounded p-button-text">
+            <i class="pi pi-times"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </p-fieldset>
+<p-dialog header="Workout Description" [(visible)]="descriptionDialogVisible" [style]="{width: '50vw'}">
+  <p>{{ dialogDescription }}</p>
+</p-dialog>
+<p-dialog header="Workout Name" [(visible)]="nameDialogVisible" [style]="{width: '50vw'}">
+  <p>{{ dialogName }}</p>
+</p-dialog>

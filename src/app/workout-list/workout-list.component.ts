@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { Workout } from '../workout';
-import { WorkoutService } from '../workout.service';
+import {Workout} from '../workout';
+import {WorkoutService} from '../workout.service';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {Table} from "primeng/table";
 
@@ -16,6 +16,10 @@ export class WorkoutListComponent implements OnInit {
   activeWorkout: Workout | null = null;
   initialName: string = '';
   initialDescription: string = '';
+  descriptionDialogVisible: boolean = false;
+  nameDialogVisible: boolean = false;
+  dialogDescription: string = '';
+  dialogName: string = '';
 
   constructor(
     private workoutService: WorkoutService,
@@ -25,6 +29,20 @@ export class WorkoutListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWorkouts();
+  }
+
+  showDescriptionDialog(description: string) {
+    if (description.length > 50 && !this.workout.editable) {
+      this.dialogDescription = description;
+      this.descriptionDialogVisible = true;
+    }
+  }
+
+  showNameDialog(name: string) {
+    if (name.length > 50 && !this.workout.editable) {
+      this.dialogName = name;
+      this.nameDialogVisible = true;
+    }
   }
 
   applyFilterGlobal($event: any, stringVal: any) {
@@ -45,9 +63,14 @@ export class WorkoutListComponent implements OnInit {
     this.workoutService.createWorkout(this.workout).subscribe((data) => {
       this.getWorkouts();
       this.workout = new Workout();
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Workout created successfully', life: 3000 });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Workout created successfully',
+        life: 3000
+      });
     }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to create workout', life: 3000 });
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to create workout', life: 3000});
     });
   }
 
@@ -59,6 +82,8 @@ export class WorkoutListComponent implements OnInit {
     workout.editable = true;
     this.initialName = workout.name;
     this.initialDescription = workout.description;
+    this.descriptionDialogVisible = false;
+    this.nameDialogVisible = false;
   }
 
   updateWorkout(workout: Workout) {
@@ -66,9 +91,14 @@ export class WorkoutListComponent implements OnInit {
       workout.editable = false;
       this.activeWorkout = null;
       this.getWorkouts();
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Workout updated successfully', life: 3000 });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Workout updated successfully',
+        life: 3000
+      });
     }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update workout', life: 3000 });
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to update workout', life: 3000});
     });
   }
 
