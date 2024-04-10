@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Workout} from '../workout';
 import {WorkoutService} from '../workout.service';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {Table} from "primeng/table";
+import {Workout} from "../model/workout";
 
 @Component({
   selector: 'app-workout-list',
