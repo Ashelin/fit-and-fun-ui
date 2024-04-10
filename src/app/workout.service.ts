@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Workout } from './workout';
+import { Workout } from './model/workout';
+import {CreateWorkoutResponse} from "./model/create-workout-response";
+import {UpdateWorkoutResponse} from "./model/update-workout-response";
+import {DeleteWorkoutResponse} from "./model/delete-workout-response";
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +22,15 @@ export class WorkoutService {
     return this.httpClient.get<Workout>(`${this.baseUrl}/search/${id}`);
   }
 
-  createWorkout(workout: Workout): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/create`, workout);
+  createWorkout(workout: Workout): Observable<CreateWorkoutResponse> {
+    return this.httpClient.post<CreateWorkoutResponse>(`${this.baseUrl}/create`, workout);
   }
 
-  updateWorkout(id: number, workout: Workout): Observable<any> {
-    return this.httpClient.put(`${this.baseUrl}/update/${id}`, workout);
+  updateWorkout(id: number, workout: Workout): Observable<UpdateWorkoutResponse> {
+    return this.httpClient.put<UpdateWorkoutResponse>(`${this.baseUrl}/update/${id}`, workout);
   }
 
-  deleteWorkout(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}/delete/${id}`);
+  deleteWorkout(id: number): Observable<DeleteWorkoutResponse> {
+    return this.httpClient.delete<DeleteWorkoutResponse>(`${this.baseUrl}/delete/${id}`);
   }
 }

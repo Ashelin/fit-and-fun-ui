@@ -31,7 +31,7 @@ import {DialogService} from "primeng/dynamicdialog";
     AppComponent,
     WorkoutListComponent,
     AppMenuComponent,
-    PanelMenuComponent
+    PanelMenuComponent,
   ],
   imports: [
     BrowserModule,
