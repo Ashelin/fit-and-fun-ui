@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
@@ -26,6 +26,7 @@ import {DialogService} from "primeng/dynamicdialog";
 
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     WorkoutListComponent,
@@ -56,8 +57,8 @@ import {DialogService} from "primeng/dynamicdialog";
     provideClientHydration(),
     ConfirmationService,
     MessageService,
-    DialogService
-  ],
-  bootstrap: [AppComponent]
+    DialogService,
+    provideHttpClient(withFetch()),
+  ]
 })
 export class AppModule { }
